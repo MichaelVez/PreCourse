@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My first Javascript game - By Michael Vezdenev</title>
+    <h1>HangMan By Michael Vezdenev</h1>
+  </head>
+  <body>
+    <p id="guessBox">You Have x guess left</p>
+    <p id="wordBox">The Word is</p>
+
+    <script>
+      var wordsDrawer = [
+        "Fullstack",
+        "Michael",
+        "HangMan",
+        "FrontEnd",
+        "BackEnd",
+        "Dragon",
+        "Solution",
+      ];
+      let GameStatus = "playing";
+      var word1 = wordsDrawer[Math.floor(Math.random() * wordsDrawer.length)];
+      var word1Array = word1.split("");
+      var word2Array = [];
+      for (let i = 0; i < word1Array.length; i++)
+        word2Array.push([word1Array[i], false]);
+
+      var userTries = 10;
+      document.getElementById("guessBox").innerHTML =
+        "You Have " + userTries + " Tries left";
+
+      function updateWord() {
+        let updateWord1 = "";
+        for (let i = 0; i < word1Array.length; i++) {
+          if (word2Array[i][1] == true) updateWord1 += [word2Array[i][0]];
+          else updateWord1 += "*";
+        }
+        document.getElementById("wordBox").innerHTML =
+          "The Word is " + updateWord1;
+      }
+      function checkWin() {
+        for (let i = 0; i < word1Array.length; i++) {
+          if (word2Array[i][1] == false) return false;
+        }
+        GameStatus = "win";
+      }
+      updateWord();
+
+      function click1() {
+        if (GameStatus == "playing") {
+          let userInput1 = document
+            .getElementById("myText1")
+            .value.toLowerCase();
+          document.getElementById("myText1").value = "";
+          if (userInput1.toLowerCase() == userInput1.toUpperCase())
+            alert("invalid input");
+          else if (userInput1.toLowerCase() == word1.toLocaleLowerCase()) {
+            document.getElementById("wordBox").innerHTML =
+              "The Word is " + word1 + " ,You Win!!";
+            GameStatus = "win";
+          } else if (
+            userInput1.length != 1 &&
+            userInput1.length != word1.length
+          )
+            alert("One letter or whole word");
+          else {
+            let appear = false;
+            for (let i = 0; i < word1Array.length; i++) {
+              if (userInput1 == word2Array[i][0].toLowerCase()) {
+                word2Array[i][1] = true;
+                appear = true;
+              }
+            }
+            if (appear) {
+              updateWord();
+              checkWin();
+            } else {
+              userTries--;
+              document.getElementById("guessBox").innerHTML =
+                "You Have " + userTries + " Tries left";
+              if (userTries == 0) GameStatus = "lose";
+            }
+          }
+        }
+        if (GameStatus == "lose")
+          alert("out of attempts, to play again refresh page");
+        if (GameStatus == "win") alert("You Win");
+      }
+    </script>
+
+    <input type="text" id="myText1" placeholder="Guess here" />
+    <button onclick="click1()">Send guess</button>
+  </body>
+</html>
