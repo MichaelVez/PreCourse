@@ -1,7 +1,6 @@
 /*
-getWordByNumber is a function that get a argument 'num', num is a number between 0-9.
-The function should return the number in words, i.e. if 'num=3' will return “three”.
-if the argument is out of range return 'invalid'.
+countOddFromZeroToNum function get argument num , the argument 'num' is a positive number.
+the function returns the amount of the odd numbers from 0 to num (inclusive).
 */
 const countOddFromZeroToNum = (num) => {
   var oddCount = 0;
